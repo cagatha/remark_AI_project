@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Details</title>
+    <style>
+		body {
+			background-color: #F4E4D8;
+			font-family: 'Montserrat', sans-serif;
+		}
+		h1, h2, h3 {
+			color: #6F4E37;
+			font-weight: bold;
+		}
+		p {
+			color: #3E3E3E;
+			font-size: 16px;
+			line-height: 1.5;
+		}
+		button {
+			background-color: #6F4E37;
+			color: #FFFFFF;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+
+</head>
+<body>
+    <h1>Activity Details</h1>
+    {% for activity in activities %}
+    <p><strong>活動行程:</strong> {{ activity[2] }}</p>
+    <p><strong>活動時間:</strong> {{ activity[3] }}</p>
+    <p><strong>活動地點:</strong> {{ activity[4] }}</p>
+    {% if activity[5] in activity_type_names %}
+    <p><strong>活動分類:</strong> {{ activity_type_names[activity[5]] }}</p>
+    {% else %}
+    <p><strong>活動分類:</strong> Unknown</p>
+    {% endif %}
+    <p><strong>其他參與者:</strong> {{ activity[6] }}</p>
+    {% endfor %}
+	</table>
+	<form action="{{ url_for('home') }}" method="get">
+		<button type="submit">搜尋更多請點這裡</button>
+	</form>
+</body>
+</html>
+
+
+

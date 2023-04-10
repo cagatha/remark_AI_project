@@ -1,0 +1,17 @@
+flask
+psycopg2
+selenium
+bs4
+requests
+multiprocess==0.70.12.2
+flask_bootstrap
+pandas
+numpy
+jieba
+scikit-learn==1.2.2
+flask_sqlalchemy
+
+
+
+
+

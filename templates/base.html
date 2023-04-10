@@ -1,0 +1,52 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}行事曆系統{% endblock title %}
+
+{% block navbar%}
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+
+                </button>
+                
+                <a class="navbar-brand" href="https://127.0.0.1:8000/index">行事曆系統</a>
+                
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
+                <ul class="nav navbar-nav">
+
+                    <li><a href="http://127.0.0.1:8000/index">行事曆</a></li>
+                    <li><a href="http://127.0.0.1:8000/calendar">我的行程</a></li>
+                    <li><a href="http://127.0.0.1:8000/friend">我的好友</a></li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <footer class="navbar-default navbar-fixed-bottom">
+
+        <div class="container-fluid">
+
+            <p align="right">@聯成專題實作</p>
+
+        </div>
+
+    </footer>
+
+{% endblock navbar %}

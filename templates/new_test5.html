@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Remarks</title>
+	<style>
+        body {
+			background-color: #F4E4D8;
+			font-family: 'Montserrat', sans-serif;
+		}
+		h1, h2, h3 {
+			color: #6F4E37;
+			font-weight: bold;
+		}
+		p {
+			color: #3E3E3E;
+			font-size: 16px;
+			line-height: 1.5;
+		}
+		button {
+			background-color: #6F4E37;
+			color: #FFFFFF;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 20px;
+		}
+
+    button:hover {
+      background-color: #a0c1b8; /* light green */
+    }
+    img {
+			height: 500px;
+			width: 800px;
+		}
+    .result {
+        border: 1px solid #181818;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 100px auto;
+        grid-template-rows: 100px auto;
+        grid-template-areas: "image title" "image link";
+        grid-gap: 10px;
+        background-color: white; /* Add a background color */
+    }
+		
+    /* Style the checkbox */
+		input[type="checkbox"] {
+			transform: scale(1.5);
+		}
+
+
+    </style>
+</head>
+<body>
+	<h1>請輸入您要搜尋的關鍵字:</h1>
+	<form action="/search" method="POST">
+		<label for="search">Search:</label>
+		<input type="text" id="search" name="search">
+		<button type="submit">Search</button>
+	</form>
+	{% if results %}
+		<h2>Search Results</h2>
+		<ul>
+        	<form method="POST" action="{{ url_for('save') }}">
+        		{% for result in results %}
+        			<div>
+            			<h2><a href="{{ result.link }}" target="_blank">{{ result.title }} </a></h2>
+            			<a href="{{ result.link }}"><img src="{{ result.image_url }}" }}"></a>
+        				<input type="checkbox" name="selected_items" value="{{ result.link }}">
+        			</div>
+        		{% endfor %}
+        		<button type="submit" class="save-button">Save Selected Items</button>
+        		<button type="submit" name="action" value="no-save">No Thanks</button>
+        	</form>
+		</ul>
+	{% endif %}
+</body>
+</html>
+
+

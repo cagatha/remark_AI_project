@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Friend Details{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <h1 style="margin-top:100px ; margin-left:100px;"></h1>
+	<title>Friends List</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		.profile-photo-sm {
+			width: 50px;
+			height: 50px;
+			object-fit: cover;
+			border-radius: 50%;
+		}
+		h2 {
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		  }
+		.search-form {
+			position: absolute;
+			top: 0;
+			right: 0;
+			margin: 10px;
+		}
+		#element-wrapper {
+			position: fixed;
+			top: 0;
+			right: 0;
+		}
+		.container {
+          margin-top: 50px;
+            }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2>好友列表</h2>
+				<div id="element-wrapper">
+					<form method="POST" action="/add_friend">
+						<label for="input">用戶帳號或用戶名稱:</label>
+						<input type="text" id="input" name="input">
+						<input type="submit" value="新增好友">
+					</form>
+				</div>
+				<div id="friends-list"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				url: "/api/friend",
+				method: "GET",
+				dataType: "json",
+				success: function(response) {
+					var friendsList = $("#friends-list");
+					for (var i = 0; i < response.friend.length; i++) {
+						var friend = response.friend[i];
+						var friendElement = $("<div>").addClass("col-md-2 col-sm-4 col-xs-6 text-center");
+						var profilePhoto;
+						if (friend.gender === "male") {
+							profilePhoto = $("<img>").addClass("profile-photo-sm").attr("src", "https://bootdey.com/img/Content/avatar/avatar7.png").attr("alt", "user");
+						} else {
+							profilePhoto = $("<img>").addClass("profile-photo-sm").attr("src", "https://bootdey.com/img/Content/avatar/avatar3.png").attr("alt", "user");
+						}
+						friendElement.append(profilePhoto);
+						friendElement.append($("<h4>").text("姓名: " + friend.name));
+						friendElement.append($("<h4>").text("暱稱: " + (friend.nickname || "N/A")));
+						friendElement.append($("<h4>").text("電子信箱: " + (friend.email || "N/A")));
+						friendsList.append(friendElement);
+					}
+				},
+				error: function(xhr, status, error) {
+					console.log(error);
+				}
+			});
+		});
+	</script>	
+</body>
+</html>
+{% endblock %}

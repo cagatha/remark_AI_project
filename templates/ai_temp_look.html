@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations for you</title>
+   	<style>
+    /* Global styles */
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: bold;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    /* Header styles */
+    header {
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+    }
+    .nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .nav-item {
+      margin: 0 10px;
+    }
+    /* Main content styles */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+    .post {
+      margin-bottom: 40px;
+    }
+    .post-title {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    .post-date {
+      font-size: 16px;
+      color: #999;
+      margin-bottom: 20px;
+    }
+    .post-author {
+      font-size: 16px;
+      color: #999;
+      margin-bottom: 20px;
+    }
+    .post-content {
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .post-image {
+      margin-bottom: 20px;
+    }
+    /* Footer styles */
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-text {
+      font-size: 16px;
+    }
+    .footer-social {
+      display: flex;
+    }
+    .social-item {
+      margin: 0 10px;
+    }
+    .social-item img {
+      width: 30px;
+      height: 30px;
+    }
+   		
+       /* Style the checkbox */
+   		input[type="checkbox"] {
+   			transform: scale(1.5);
+   		}
+    img {
+            height: 500px;
+            width: 800px;
+        }
+
+
+       </style>
+  </head>
+  <body>
+    <h1>您可以再看看:</h1>
+    <h2>根據您上一個儲存的連結，您有可能會喜歡:</h2>
+    <ul>
+    <form method="POST" action="{{ url_for('saveai') }}">
+      {% for result in recommendList %}
+        <li>
+          <a href="{{ result.link }}" target="_blank">{{ result.title }}</a>
+          <br>
+          <img src="{{ result.image_url }}" alt="{{ result.title }}">
+          <input type="checkbox" name="selected_items" value="{{ result.link }}">
+        </li>
+      {% endfor %}
+    </ul>
+    <ul>
+    <h2>根據您與其他使用者的相似度，您有可能會喜歡:</h2>
+      {% for result in similar_items_list %}
+        <li>
+          <a href="{{ result.link }}" target="_blank">{{ result.title }}</a>
+          <br>
+          <img src="{{ result.image_url }}" alt="{{ result.title }}">
+          <input type="checkbox" name="selected_items" value="{{ result.link }}">
+        </li>
+      {% endfor %}
+      <button type="submit" class="save-button">Save Selected Items</button>
+      <button type="submit" name="action" value="no-save">No Thanks</button>
+    </form>
+    </ul>
+  </body>
+</html>
+

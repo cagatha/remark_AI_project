@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+ <div class="content" style="margin-top:50px;">
+  <h1 style="margin-top:100px ; margin-left:100px;">請註冊您的帳號</h1>
+  <form method="POST" action="/register" style="margin-left:100px;">
+    <p><input type="text" name="username" placeholder="請輸入使用者名稱"></p>
+    <p><input type="password" name="password" placeholder="請輸入密碼"></p>
+    <p><input type="text" name="name" placeholder="請輸入使用者姓名"></p>
+    <p><input type="date" name="birthday" placeholder="請輸入使用者生日"></p>
+    <p><input type="text" name="email" placeholder="請輸入使用者email"></p>
+    <p>
+      <label for="gender">性別：</label>
+      <select name="gender" id="gender">
+        <option value="male">男性</option>
+        <option value="female">女性</option>
+      </select>
+    </p>
+    <p>
+      <label for="status">婚姻狀態：</label>
+      <select name="status" id="status">
+        <option value="single">未婚</option>
+        <option value="married">已婚</option>
+      </select>
+    </p>
+    <p><input type="text" name="nickname" placeholder="請輸入使用者暱稱"></p>
+    <p><input type="submit" value="註冊"></p>
+  </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Calendar Details{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title style="margin-top:100px">Calendar Details</title>
+    <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    td:nth-child(1) {
+      width: 150%;
+    }
+    
+    td:nth-child(1) {
+      min-width: 500px;
+    }
+    
+    td a {
+      display: block;
+      color: blue;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+        tr.activity-header td {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    td a:hover {
+      text-decoration: underline;
+    }
+    
+    body {
+      background-color: #F4E4D8;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    h1, h2, h3 {
+      color: #6F4E37;
+      font-weight: bold;
+    }
+    
+    p {
+      color: #3E3E3E;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    button {
+      background-color: #6F4E37;
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .container {
+      margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+  <h1 style="margin-top:100px">Activity Details</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Activity Name</th>
+        <th>Activity Time</th>
+        <th>More Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row[2] }}</td>
+          <td>{{ row[3] }}</td>
+          <td><button onclick="location.href='/remark'">More Details</button></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

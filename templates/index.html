@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>行事曆系統</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    
+        <script>
+
+            $(document).ready(function() {
+                var calendar = $('#calendar').fullCalendar({
+                    editable:true,
+                    header: {
+                        left:'prev,next today',
+                        center:'title',
+                        right:'month,agendaWeek,agendaDay'
+                    },
+                    events: [{% for row in calendar %} { id : '{{row.id}}', title : '{{row.title}}', start : '{{row.start_event}}', end : '{{row.end_event}}', }, {% endfor %}],
+                    selectable:true,
+                    selectHelper:true,
+                    select: function(start, end, allDay) {
+                        var title = prompt("Enter Event Title");
+                        if(title) {
+                            var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+                            var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+                            $.ajax({
+                                url:"/insert",
+                                type:"POST",
+                                data:{title:title, start:start, end:end},
+                                success:function(data) {
+                                    //alert(data)
+                                    alert("Added Successfully");
+                                    window.location.replace("/");
+                                }
+                            })
+                        }
+                    },
+                    editable:true,
+                    eventResize:function(event) {
+                        var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                        var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                        var title = event.title;
+                        var id = event.id;
+                        $.ajax({
+                            url:"/update",
+                            type:"POST",
+                            data:{title:title, start:start, end:end, id:id},
+                            success:function() {
+                                calendar.fullCalendar('refetchEvents');
+                                alert('Event Update');
+                            }
+                        })
+                    },
+                
+                    eventDrop:function(event) {
+                        var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                        var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                        var title = event.title;
+                        var id = event.id;
+                        $.ajax({
+                            url:"/update",
+                            type:"POST",
+                            data:{title:title, start:start, end:end, id:id},
+                            success:function() {
+                                calendar.fullCalendar('refetchEvents');
+                                alert("Event Updated");
+                            }
+                        });
+                    },
+                
+                    eventClick:function(event) {
+                        if(confirm("Are you sure you want to remove it?")) {
+                            var id = event.id;
+                            $.ajax({
+                                url:"/ajax_delete",
+                                type:"POST",
+                                data:{id:id},
+                                success:function() {
+                                    calendar.fullCalendar('refetchEvents');
+                                    alert("Event Removed");
+                                }
+                            })
+                        }
+                    },
+            
+                });
+            });
+     
+        </script>
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+
+                    </button>
+                    
+                    <a class="navbar-brand" href="http://127.0.0.1:8000/index">行事曆系統</a>
+
+                    <!-- 複製下方內容 修改上方資訊
+
+                    <a class="navbar-brand" href="http://127.0.0.1:5000/index">行事曆系統</a>
+                    <a class="navbar-brand" href="https://calendar-project.herokuapp.com/index">行事曆系統</a>
+
+                    -->
+
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                
+                    <ul class="nav navbar-nav">
+
+                        <li><a href="http://127.0.0.1:8000/index">行事曆</a></li>
+                        <li><a href="http://127.0.0.1:8000/calendar">我的行程</a></li>
+                        <li><a href="http://127.0.0.1:8000/friend">我的好友</a></li>
+
+                        <!-- 複製下方內容 修改上方資訊
+
+                        <li><a href="http://127.0.0.1:5000/index">行事曆</a></li>
+                        <li><a href="http://127.0.0.1:5000/remark">我的行程</a></li>
+                        <li><a href="http://127.0.0.1:5000/friend">好友名單</a></li>
+
+                        <li><a href="https://calendar-project.herokuapp.com/index">行事曆</a></li>
+                        <li><a href="https://calendar-project.herokuapp.com/remark">我的行程</a></li>
+                        <li><a href="https://calendar-project.herokuapp.com/friend">好友名單</a></li>
+
+                        -->
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+        <footer class="navbar-default navbar-fixed-bottom">
+
+            <div class="container-fluid">
+
+                <p align="right">@聯成專題實作</p>
+
+            </div>
+
+        </footer>
+
+        <div class="container" style="margin-top:70px;">
+            <div id="calendar"></div>
+        </div>
+
+    </body>
+
+</html>
+
